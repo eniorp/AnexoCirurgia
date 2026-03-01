@@ -1,0 +1,46 @@
+faça uma tela html responsiva com um pensamento ux apurado, bem didático,
+essa tela será utilzada por beneficiários de plano de saúde que tem uma cirurgia eletiva prevista,a funcionalidade dessa tela será para 
+o paciente anexar ao pedido de cirurigias anexos obrigatórios para análise da operadora. o paciente 
+recebera um link dedicado via whatsapp , que ao clicar, será remetido a essa tela.
+
+ao clicar no link:
+
+Tela exibe: número de protocolo/solicitação, nome do paciente (mascarado),  e lista de anexos obrigatórios pendentes.
+
+
+Seleção do arquivo
+
+Botão “Selecionar arquivo
+botão "tirar foto"
+
+
+Mostrar preview (imagem) ou nome/ícone (pdf) e tamanho.
+
+Pergunta obrigatória após selecionar arquivo
+
+Ao clicar em “Upload”, abrir uma opção onde o paciente irá selecionar qual ou quais anexos estão nesse arquivo
+
+
+
+Campo “observação” opcional (ex: “documento tem 2 páginas”).
+
+
+Após upload bem-sucedido, atualizar a lista:
+
+pendência resolvida / parcialmente resolvida / ainda pendente
+
+Mostrar progresso: “X de Y anexos obrigatórios enviados”.
+
+Reenvio/remoção
+
+Permitir “substituir” anexo enviado (antes de fechar a solicitação), se regra permitir.
+
+Se permitir excluir, deve registrar motivo/confirmar.
+
+Confirmação final
+
+Ao completar todos obrigatórios, mostrar mensagem:
+
+“Recebemos seus anexos. Agora sua solicitação seguirá para análise.”
+
+observação: faça só a tela html, sem api ou logica de backend,utilize dados mocados(fixos), será apenas para termos uma ideia da tela
