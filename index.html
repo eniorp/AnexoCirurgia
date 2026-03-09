@@ -200,6 +200,32 @@
 
     .file-input { display: none; }
 
+    .send-section {
+      margin: 20px;
+    }
+
+    .btn-send {
+      width: 100%;
+      padding: 16px;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-send:hover:not(:disabled) {
+      background: #388e3c;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(76,175,80,0.4);
+    }
+    .btn-send:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
     .success-message {
       margin: 20px;
       padding: 25px;
@@ -213,6 +239,16 @@
     .success-message h2 { font-size: 22px; margin-bottom: 10px; }
     .success-message p { font-size: 15px; opacity: 0.95; }
     .success-icon { font-size: 48px; margin-bottom: 15px; }
+    .protocolo-box {
+      display: inline-block;
+      margin-top: 14px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
 
     @media (max-width: 520px) {
       body { padding: 10px; }
@@ -312,11 +348,18 @@
 
     </div>
 
+    <div class="send-section">
+      <button class="btn-send" id="btnEnviar" disabled onclick="enviarAnexos()">
+        ✉️ Enviar Anexos
+      </button>
+    </div>
+
     <div class="success-message" id="successMessage">
       <div class="success-icon">✓</div>
-      <h2>Todos os anexos foram enviados!</h2>
+      <h2>Anexos enviados com sucesso!</h2>
       <p>Recebemos seus anexos. Agora sua solicitação seguirá para análise.</p>
       <p style="margin-top: 10px; font-size: 13px;">Você receberá atualizações via WhatsApp sobre o andamento da análise.</p>
+      <div class="protocolo-box" id="protocoloNumero"></div>
     </div>
 
   </div>
@@ -383,13 +426,29 @@
         `${count} de ${totalRequirements} anexos obrigatórios enviados`;
       document.getElementById('progressFill').style.width = percentage + '%';
 
+      document.getElementById('btnEnviar').disabled = count < totalRequirements;
+    }
+
+    function enviarAnexos() {
+      const protocolo = gerarProtocolo();
+      document.getElementById('protocoloNumero').textContent = 'Protocolo: ' + protocolo;
+
+      const btn = document.getElementById('btnEnviar');
+      btn.disabled = true;
+      btn.textContent = '✓ Enviado';
+
       const success = document.getElementById('successMessage');
-      if (count === totalRequirements) {
-        success.classList.add('active');
-        setTimeout(() => success.scrollIntoView({ behavior: 'smooth' }), 300);
-      } else {
-        success.classList.remove('active');
-      }
+      success.classList.add('active');
+      setTimeout(() => success.scrollIntoView({ behavior: 'smooth' }), 300);
+    }
+
+    function gerarProtocolo() {
+      const now    = new Date();
+      const ano    = now.getFullYear();
+      const mes    = String(now.getMonth() + 1).padStart(2, '0');
+      const dia    = String(now.getDate()).padStart(2, '0');
+      const aleatorio = String(Math.floor(Math.random() * 99999)).padStart(5, '0');
+      return `${ano}${mes}${dia}-${aleatorio}`;
     }
 
     function formatFileSize(bytes) {
