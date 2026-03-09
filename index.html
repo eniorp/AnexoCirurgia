@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <title>Upload de Anexos - Cirurgia Eletiva</title>
 
   <style>
@@ -16,74 +15,6 @@
       padding: 20px;
       color: #333;
     }
-
-    /* Header do progresso + tooltip */
-    .progress-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .info-wrapper{
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-}
-    .info-icon {
-      font-size: 20px;
-      color: #1976d2;
-      cursor: pointer;
-      transition: 0.2s ease;
-      user-select: none;
-    }
-    .info-icon:hover { color: #0d47a1; }
-
-.material-tooltip{
-  position: absolute;
-  top: 28px;
-
-  /* em vez de left:0 */
-  right: 0;
-  left: auto;
-
-  background: #323232;
-  color: #fff;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 13px;
-
-  /* largura adaptativa */
-  width: max-content;
-  max-width: min(260px, calc(100vw - 48px)); /* 48px = respiro */
-  white-space: normal; /* quebra linha */
-
-  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-  opacity: 0;
-  transform: translateY(-5px);
-  pointer-events: none;
-  transition: all 0.2s ease;
-  z-index: 10;
-  line-height: 1.4;
-}
-
-.info-wrapper.active .material-tooltip{
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.material-tooltip::before{
-  content: "";
-  position: absolute;
-  top: -6px;
-  right: 12px; /* em vez de left */
-  width: 12px;
-  height: 12px;
-  background: #323232;
-  transform: rotate(45deg);
-}
 
     .container {
       max-width: 800px;
@@ -101,12 +32,7 @@
       text-align: center;
     }
 
-    .header h1 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
-
+    .header h1 { font-size: 24px; margin-bottom: 10px; font-weight: 600; }
     .header p { opacity: 0.9; font-size: 14px; }
 
     .info-card {
@@ -125,7 +51,6 @@
       gap: 10px;
     }
     .info-row:last-child { margin-bottom: 0; }
-
     .info-label { font-weight: 600; color: #555; font-size: 14px; }
     .info-value { color: #333; font-size: 14px; }
 
@@ -137,13 +62,8 @@
       text-align: center;
     }
 
-    .progress-text {
-      font-size: 16px;
-      font-weight: 600;
-      color: #2e7d32;
-    }
+    .progress-text { font-size: 16px; font-weight: 600; color: #2e7d32; }
 
-    /* barra conforme seu CSS (sem Bootstrap) */
     .progress-bar {
       background: #c8e6c9;
       height: 12px;
@@ -151,186 +71,134 @@
       overflow: hidden;
       margin-top: 10px;
     }
+
     .progress-fill {
       background: linear-gradient(90deg, #4caf50, #66bb6a);
       height: 100%;
       width: 0%;
-      transition: width 0.3s ease;
+      transition: width 0.4s ease;
     }
 
-    .pending-list { margin: 20px; }
-    .pending-list h2 { font-size: 18px; margin-bottom: 15px; color: #333; }
+    /* Lista de anexos */
+    .attachments-section { margin: 20px; }
+    .attachments-section h2 { font-size: 18px; margin-bottom: 15px; color: #333; }
 
-    .pending-item {
+    .attachment-item {
       background: #fff3e0;
-      padding: 12px 15px;
-      margin-bottom: 8px;
-      border-radius: 8px;
-      border-left: 3px solid #ff9800;
-      font-size: 14px;
+      border-left: 4px solid #ff9800;
+      border-radius: 10px;
+      padding: 14px 15px;
+      margin-bottom: 12px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .attachment-item.completed {
+      background: #e8f5e9;
+      border-left-color: #4caf50;
+    }
+
+    .attachment-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .attachment-info {
       display: flex;
       align-items: center;
       gap: 10px;
+      flex: 1;
+      min-width: 0;
     }
 
-    .pending-item.completed { background: #e8f5e9; border-left-color: #4caf50; }
-    .pending-item .icon { font-size: 18px; }
+    .attachment-status { font-size: 22px; flex-shrink: 0; }
 
-    .upload-section {
-      margin: 20px;
-      padding: 25px;
-      background: #f8f9fa;
-      border-radius: 12px;
+    .attachment-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+      line-height: 1.4;
     }
 
-    .upload-section h2 { font-size: 18px; margin-bottom: 20px; color: #333; }
-
-    .upload-buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin-bottom: 20px;
+    .attachment-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
-    .btn {
-      padding: 15px 20px;
+    .btn-cam {
+      padding: 9px 14px;
+      background: #1976d2;
+      color: white;
       border: none;
       border-radius: 8px;
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
+      gap: 5px;
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
     }
+    .btn-cam:hover { background: #1565c0; transform: translateY(-1px); }
 
-    .btn-primary { background: #4caf50; color: white; }
-    .btn-primary:hover {
-      background: #45a049;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
-    }
-
-    .btn-secondary { background: white; color: #4caf50; border: 2px solid #4caf50; }
-    .btn-secondary:hover { background: #e8f5e9; transform: translateY(-2px); }
-
-    .btn-danger { background: #f44336; color: white; padding: 8px 15px; font-size: 13px; }
-    .btn-danger:hover { background: #d32f2f; }
-
-    .file-input { display: none; }
-
-    .preview-section { margin-top: 20px; display: none; }
-    .preview-section.active { display: block; }
-
-    .preview-card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      border: 2px solid #e0e0e0;
-    }
-
-    .preview-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .preview-info { font-size: 14px; color: #666; line-height: 1.6; }
-
-    .form-group { margin-bottom: 15px; }
-
-    .form-label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: #333;
-      font-size: 14px;
-    }
-
-    .form-label.required::after { content: " *"; color: #f44336; }
-
-    .checkbox-group {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 8px;
-      max-height: 200px;
-      overflow-y: auto;
-    }
-
-    .checkbox-item {
-      display: flex;
-      align-items: center;
-      padding: 8px;
-      margin-bottom: 5px;
-      cursor: pointer;
-      border-radius: 4px;
-      transition: background 0.2s;
-    }
-    .checkbox-item:hover { background: #e0e0e0; }
-    .checkbox-item input { margin-right: 10px; width: 18px; height: 18px; cursor: pointer; }
-    .checkbox-item label { cursor: pointer; font-size: 14px; flex: 1; }
-
-    textarea {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 14px;
-      resize: vertical;
-      min-height: 80px;
-      transition: border-color 0.3s;
-    }
-    textarea:focus { outline: none; border-color: #4caf50; }
-
-    .btn-upload {
-      width: 100%;
-      margin-top: 15px;
+    .btn-file-attach {
+      padding: 9px 14px;
       background: #4caf50;
       color: white;
-      padding: 15px;
-    }
-    .btn-upload:hover { background: #45a049; box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4); }
-    .btn-upload:disabled { background: #ccc; cursor: not-allowed; transform: none; }
-
-    .uploaded-files { margin: 20px; }
-    .uploaded-files h2 { font-size: 18px; margin-bottom: 15px; color: #333; }
-
-    .uploaded-item {
-      background: white;
-      padding: 15px;
-      margin-bottom: 10px;
+      border: none;
       border-radius: 8px;
-      border: 2px solid #e0e0e0;
-    }
-
-    .uploaded-header {
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
       display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+    .btn-file-attach:hover { background: #388e3c; transform: translateY(-1px); }
+
+    .attachment-preview {
+      margin-top: 10px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 8px;
+      display: none;
+      align-items: center;
       justify-content: space-between;
-      align-items: start;
-      margin-bottom: 10px;
       gap: 10px;
       flex-wrap: wrap;
     }
 
-    .uploaded-title { font-weight: 600; color: #333; font-size: 14px; }
-    .uploaded-details { font-size: 13px; color: #666; margin-bottom: 5px; }
+    .attachment-preview.visible { display: flex; }
 
-    .uploaded-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
-
-    .tag {
-      background: #e3f2fd;
-      color: #1976d2;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 500;
+    .attachment-preview-info {
+      font-size: 13px;
+      color: #444;
+      flex: 1;
+      min-width: 0;
+      word-break: break-word;
     }
+
+    .btn-remove-attach {
+      background: #f44336;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 11px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn-remove-attach:hover { background: #d32f2f; }
+
+    .file-input { display: none; }
 
     .success-message {
       margin: 20px;
@@ -341,26 +209,26 @@
       text-align: center;
       display: none;
     }
-
     .success-message.active { display: block; }
     .success-message h2 { font-size: 22px; margin-bottom: 10px; }
     .success-message p { font-size: 15px; opacity: 0.95; }
     .success-icon { font-size: 48px; margin-bottom: 15px; }
 
-    @media (max-width: 600px) {
+    @media (max-width: 520px) {
       body { padding: 10px; }
-      .container { border-radius: 12px; }
       .header { padding: 20px; }
       .header h1 { font-size: 20px; }
-      .upload-buttons { grid-template-columns: 1fr; }
       .info-row { flex-direction: column; gap: 5px; }
-      .material-tooltip { width: 240px; }
+      .attachment-top { flex-direction: column; align-items: flex-start; }
+      .attachment-actions { width: 100%; }
+      .btn-cam, .btn-file-attach { flex: 1; justify-content: center; }
     }
   </style>
 </head>
 
 <body>
   <div class="container">
+
     <div class="header">
       <h1>📋 Envio de anexos para Cirurgia</h1>
       <p>Você recebeu esse link porque precisa enviar anexos complementares para sua cirurgia, faça upload ou tire fotos dos arquivos. Sem essas informações seu pedido de cirurgia não pode ser enviado à Unimed para análise</p>
@@ -382,81 +250,66 @@
     </div>
 
     <div class="progress-section">
-      <div class="progress-header">
-        <div class="progress-text" id="progressText">0 de 5 anexos obrigatórios enviados</div>
-
-        <div class="info-wrapper" id="infoWrapper" aria-label="Ver lista de anexos obrigatórios">
-          <i class="bi bi-info-circle-fill info-icon" id="infoIcon" role="button" tabindex="0"></i>
-          <div class="material-tooltip" id="materialTooltip">
-            <strong>Anexos obrigatórios:</strong><br>
-            Laudo de exames de Ultrasom/Tomografia/Raio X/Ressonância, exames complementares anteriores(se houver), outros
-          </div>
-        </div>
-      </div>
-
+      <div class="progress-text" id="progressText">0 de 3 anexos obrigatórios enviados</div>
       <div class="progress-bar">
-        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        <div class="progress-fill" id="progressFill"></div>
       </div>
     </div>
 
-    <div class="upload-section">
-      <h2>📤 Enviar Documento</h2>
+    <div class="attachments-section">
+      <h2>📋 Anexos Obrigatórios</h2>
 
-      <div class="upload-buttons">
-        <button class="btn btn-primary" onclick="selectFile()">
-          <span>📁</span> Selecionar Arquivo
-        </button>
-        <button class="btn btn-secondary" onclick="takePhoto()">
-          <span>📷</span> Tirar Foto
-        </button>
-      </div>
-
-      <input type="file" id="fileInput" class="file-input" accept="image/*,.pdf" multiple onchange="handleFileSelect(event)">
-      <input type="file" id="cameraInput" class="file-input" accept="image/*" capture="environment" onchange="handleFileSelect(event)">
-
-      <div class="preview-section" id="previewSection">
-        <div class="preview-card">
-          <div class="preview-header">
-            <h3 style="margin: 0; font-size: 16px;" id="previewTitle">Arquivo(s) Selecionado(s)</h3>
-            <button class="btn btn-danger" onclick="cancelUpload()">✕ Cancelar</button>
+      <!-- Anexo 1 -->
+      <div class="attachment-item" id="item-laudo">
+        <div class="attachment-top">
+          <div class="attachment-info">
+            <span class="attachment-status" id="status-laudo">⏳</span>
+            <span class="attachment-name">Laudo de exames de Ultrassom / Tomografia / Raio X / Ressonância</span>
           </div>
-
-          <div id="previewContent"></div>
-
-          <div class="form-group">
-            <label class="form-label required" id="requirementLabel">Este(s) arquivo(s) corresponde(m) a qual(is) anexo(s)?</label>
-            <div class="checkbox-group" id="requirementCheckboxes">
-              <div class="checkbox-item">
-                <input type="checkbox" id="req1" value="pedido-medico">
-                <label for="req1">Laudo de exames de Ultrasom/Tomografia/Raio X/Ressonância</label>
-              </div>
-
-              <div class="checkbox-item">
-                <input type="checkbox" id="req2" value="exames-pre">
-                <label for="req2">exames complementares anteriores(se houver)</label>
-              </div>
-              <div class="checkbox-item">
-                <input type="checkbox" id="req3" value="rg-frente">
-                <label for="req3">Outros Anexos</label>
-              </div>
-            </div>
+          <div class="attachment-actions">
+            <button class="btn-cam" onclick="takePhotoFor('laudo')">📷 Tirar Foto</button>
+            <button class="btn-file-attach" onclick="selectFileFor('laudo')">📁 Anexar Arquivo</button>
           </div>
-
-          <div class="form-group">
-            <label class="form-label">Observações (opcional)</label>
-            <textarea id="observations" placeholder="Ex: documento tem 2 páginas, está em boa qualidade, etc."></textarea>
-          </div>
-
-          <button class="btn btn-upload" id="uploadBtn" onclick="uploadFile()" disabled>
-            <span>✓</span> <span id="uploadBtnText">Enviar Documento(s)</span>
-          </button>
         </div>
+        <div class="attachment-preview" id="preview-laudo"></div>
+        <input type="file" id="camera-laudo" class="file-input" accept="image/*" capture="environment" onchange="handleAttachmentFile(event, 'laudo')">
+        <input type="file" id="file-laudo" class="file-input" accept="image/*,.pdf" onchange="handleAttachmentFile(event, 'laudo')">
       </div>
-    </div>
 
-    <div class="uploaded-files" id="uploadedFiles" style="display: none;">
-      <h2>✅ Documentos Enviados</h2>
-      <div id="uploadedList"></div>
+      <!-- Anexo 2 -->
+      <div class="attachment-item" id="item-exames-anteriores">
+        <div class="attachment-top">
+          <div class="attachment-info">
+            <span class="attachment-status" id="status-exames-anteriores">⏳</span>
+            <span class="attachment-name">Exames complementares anteriores (se houver)</span>
+          </div>
+          <div class="attachment-actions">
+            <button class="btn-cam" onclick="takePhotoFor('exames-anteriores')">📷 Tirar Foto</button>
+            <button class="btn-file-attach" onclick="selectFileFor('exames-anteriores')">📁 Anexar Arquivo</button>
+          </div>
+        </div>
+        <div class="attachment-preview" id="preview-exames-anteriores"></div>
+        <input type="file" id="camera-exames-anteriores" class="file-input" accept="image/*" capture="environment" onchange="handleAttachmentFile(event, 'exames-anteriores')">
+        <input type="file" id="file-exames-anteriores" class="file-input" accept="image/*,.pdf" onchange="handleAttachmentFile(event, 'exames-anteriores')">
+      </div>
+
+      <!-- Anexo 3 -->
+      <div class="attachment-item" id="item-outros">
+        <div class="attachment-top">
+          <div class="attachment-info">
+            <span class="attachment-status" id="status-outros">⏳</span>
+            <span class="attachment-name">Outros Anexos</span>
+          </div>
+          <div class="attachment-actions">
+            <button class="btn-cam" onclick="takePhotoFor('outros')">📷 Tirar Foto</button>
+            <button class="btn-file-attach" onclick="selectFileFor('outros')">📁 Anexar Arquivo</button>
+          </div>
+        </div>
+        <div class="attachment-preview" id="preview-outros"></div>
+        <input type="file" id="camera-outros" class="file-input" accept="image/*" capture="environment" onchange="handleAttachmentFile(event, 'outros')">
+        <input type="file" id="file-outros" class="file-input" accept="image/*,.pdf" onchange="handleAttachmentFile(event, 'outros')">
+      </div>
+
     </div>
 
     <div class="success-message" id="successMessage">
@@ -465,254 +318,84 @@
       <p>Recebemos seus anexos. Agora sua solicitação seguirá para análise.</p>
       <p style="margin-top: 10px; font-size: 13px;">Você receberá atualizações via WhatsApp sobre o andamento da análise.</p>
     </div>
+
   </div>
 
   <script>
-    // Tooltip no clique (mobile-friendly)
-    (function () {
-      const wrapper = document.getElementById('infoWrapper');
-      const icon = document.getElementById('infoIcon');
+    const totalRequirements = 3;
+    const attachedFiles = {};
 
-      function closeTooltip() {
-        wrapper.classList.remove('active');
-      }
-
-      function toggleTooltip(e) {
-        e.stopPropagation();
-        wrapper.classList.toggle('active');
-      }
-
-      icon.addEventListener('click', toggleTooltip);
-      icon.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') toggleTooltip(e);
-        if (e.key === 'Escape') closeTooltip();
-      });
-
-      document.addEventListener('click', closeTooltip);
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeTooltip();
-      });
-    })();
-
-    let currentFiles = [];
-    let uploadedDocuments = [];
-    const totalRequirements = 5;
-    const requirements = {
-      'pedido-medico': 'Laudo de exames de Ultrasom/Tomografia/Raio X/Ressonância',
-      'exames-pre': 'Exames pré-operatórios (últimos 30 dias)',
-      'rg-frente': 'Outros Anexos'
-    };
-
-    function selectFile() {
-      document.getElementById('fileInput').click();
+    function takePhotoFor(key) {
+      document.getElementById('camera-' + key).click();
     }
 
-    function takePhoto() {
-      document.getElementById('cameraInput').click();
+    function selectFileFor(key) {
+      document.getElementById('file-' + key).click();
     }
 
-    function handleFileSelect(event) {
-      const files = Array.from(event.target.files);
-      if (files.length === 0) return;
+    function handleAttachmentFile(event, key) {
+      const file = event.target.files[0];
+      if (!file) return;
 
-      currentFiles = files;
-      showPreview(files);
-    }
+      attachedFiles[key] = file;
 
-    function showPreview(files) {
-      const previewSection = document.getElementById('previewSection');
-      const previewContent = document.getElementById('previewContent');
-      const previewTitle = document.getElementById('previewTitle');
-      const uploadBtnText = document.getElementById('uploadBtnText');
-      const requirementLabel = document.getElementById('requirementLabel');
+      const item    = document.getElementById('item-' + key);
+      const status  = document.getElementById('status-' + key);
+      const preview = document.getElementById('preview-' + key);
 
-      previewContent.innerHTML = '';
+      item.classList.add('completed');
+      status.textContent = '✅';
 
-      if (files.length === 1) {
-        previewTitle.textContent = 'Arquivo Selecionado';
-        uploadBtnText.textContent = 'Enviar Documento';
-        requirementLabel.textContent = 'Este arquivo corresponde a qual(is) anexo(s)?';
-        const fileInfo = document.createElement('div');
-        fileInfo.className = 'preview-info';
-        fileInfo.innerHTML = `<strong>Nome:</strong> ${files[0].name}<br><strong>Tamanho:</strong> ${formatFileSize(files[0].size)}`;
-        previewContent.appendChild(fileInfo);
-      } else {
-        previewTitle.textContent = `${files.length} Arquivos Selecionados`;
-        uploadBtnText.textContent = `Enviar ${files.length} Documentos`;
-        requirementLabel.textContent = 'Estes arquivos correspondem a qual(is) anexo(s)?';
-        const totalSize = files.reduce((sum, file) => sum + file.size, 0);
-        const fileList = files.map(f => `• ${f.name} (${formatFileSize(f.size)})`).join('<br>');
-        const fileInfo = document.createElement('div');
-        fileInfo.className = 'preview-info';
-        fileInfo.innerHTML = `<strong>Tamanho total:</strong> ${formatFileSize(totalSize)}<br><br>${fileList}`;
-        previewContent.appendChild(fileInfo);
-      }
+      preview.classList.add('visible');
+      preview.innerHTML = `
+        <div class="attachment-preview-info">
+          <strong>${file.name}</strong><br>${formatFileSize(file.size)}
+        </div>
+        <button class="btn-remove-attach" onclick="removeAttachment('${key}')">✕ Remover</button>
+      `;
 
-      previewSection.classList.add('active');
-
-      // Reset checkboxes
-      document.querySelectorAll('#requirementCheckboxes input[type="checkbox"]').forEach(cb => {
-        cb.checked = false;
-      });
-
-      updateUploadButton();
-      document.querySelectorAll('#requirementCheckboxes input[type="checkbox"]').forEach(cb => {
-        cb.addEventListener('change', updateUploadButton);
-      });
-    }
-
-    function updateUploadButton() {
-      const checkedBoxes = document.querySelectorAll('#requirementCheckboxes input[type="checkbox"]:checked');
-      document.getElementById('uploadBtn').disabled = checkedBoxes.length === 0;
-    }
-
-    function formatFileSize(bytes) {
-      if (bytes < 1024) return bytes + ' bytes';
-      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-    }
-
-    function cancelUpload() {
-      currentFiles = [];
-      document.getElementById('previewSection').classList.remove('active');
-      document.getElementById('fileInput').value = '';
-      document.getElementById('cameraInput').value = '';
-      document.getElementById('observations').value = '';
-    }
-
-    function uploadFile() {
-      if (currentFiles.length === 0) return;
-
-      const checkedBoxes = document.querySelectorAll('#requirementCheckboxes input[type="checkbox"]:checked');
-      const selectedRequirements = Array.from(checkedBoxes).map(cb => cb.value);
-      const observations = document.getElementById('observations').value;
-
-      if (selectedRequirements.length === 0) {
-        alert('Por favor, selecione ao menos um anexo correspondente.');
-        return;
-      }
-
-      currentFiles.forEach(file => {
-        const uploadId = Date.now() + Math.random();
-        const documentObj = {
-          id: uploadId,
-          file: file,
-          requirements: selectedRequirements,
-          observations: observations,
-          timestamp: new Date()
-        };
-        uploadedDocuments.push(documentObj);
-      });
-
-      updateRequirementsList(selectedRequirements);
-      displayUploadedDocuments();
       updateProgress();
-      cancelUpload();
-
-      setTimeout(() => {
-        document.getElementById('uploadedFiles').scrollIntoView({ behavior: 'smooth' });
-      }, 300);
     }
 
-    function updateRequirementsList(fulfilledRequirements) {
-      fulfilledRequirements.forEach(req => {
-        const item = document.querySelector(`.pending-item[data-requirement="${req}"]`);
-        if (item && !item.classList.contains('completed')) {
-          item.classList.add('completed');
-          item.querySelector('.icon').textContent = '✓';
-        }
-      });
-    }
+    function removeAttachment(key) {
+      delete attachedFiles[key];
 
-    function displayUploadedDocuments() {
-      const uploadedFiles = document.getElementById('uploadedFiles');
-      const uploadedList = document.getElementById('uploadedList');
+      const item    = document.getElementById('item-' + key);
+      const status  = document.getElementById('status-' + key);
+      const preview = document.getElementById('preview-' + key);
 
-      uploadedFiles.style.display = 'block';
-      uploadedList.innerHTML = '';
+      item.classList.remove('completed');
+      status.textContent = '⏳';
+      preview.classList.remove('visible');
+      preview.innerHTML = '';
 
-      uploadedDocuments.forEach((doc, index) => {
-        const item = document.createElement('div');
-        item.className = 'uploaded-item';
+      document.getElementById('camera-' + key).value = '';
+      document.getElementById('file-' + key).value   = '';
 
-        const tags = doc.requirements.map(req =>
-          `<span class="tag">${requirements[req]}</span>`
-        ).join('');
-
-        item.innerHTML = `
-          <div class="uploaded-header">
-            <div>
-              <div class="uploaded-title">${doc.file.name}</div>
-              <div class="uploaded-details">Tamanho: ${formatFileSize(doc.file.size)} • Enviado em ${formatDate(doc.timestamp)}</div>
-              ${doc.observations ? `<div class="uploaded-details"><strong>Obs:</strong> ${doc.observations}</div>` : ''}
-            </div>
-            <button class="btn btn-danger" onclick="removeDocument(${index})">🗑️ Remover</button>
-          </div>
-          <div class="uploaded-tags">${tags}</div>
-        `;
-
-        uploadedList.appendChild(item);
-      });
-    }
-
-    function removeDocument(index) {
-      if (!confirm('Tem certeza que deseja remover este documento?')) return;
-
-      const doc = uploadedDocuments[index];
-
-      doc.requirements.forEach(req => {
-        const stillFulfilled = uploadedDocuments.some((d, i) =>
-          i !== index && d.requirements.includes(req)
-        );
-
-        if (!stillFulfilled) {
-          const item = document.querySelector(`.pending-item[data-requirement="${req}"]`);
-          if (item) {
-            item.classList.remove('completed');
-            item.querySelector('.icon').textContent = '⏳';
-          }
-        }
-      });
-
-      uploadedDocuments.splice(index, 1);
-      displayUploadedDocuments();
       updateProgress();
-
-      if (uploadedDocuments.length === 0) {
-        document.getElementById('uploadedFiles').style.display = 'none';
-      }
     }
 
     function updateProgress() {
-      const completedRequirements = new Set();
-      uploadedDocuments.forEach(doc => {
-        doc.requirements.forEach(req => completedRequirements.add(req));
-      });
-
-      const count = completedRequirements.size;
+      const count      = Object.keys(attachedFiles).length;
       const percentage = (count / totalRequirements) * 100;
 
       document.getElementById('progressText').textContent =
         `${count} de ${totalRequirements} anexos obrigatórios enviados`;
       document.getElementById('progressFill').style.width = percentage + '%';
 
+      const success = document.getElementById('successMessage');
       if (count === totalRequirements) {
-        document.getElementById('successMessage').classList.add('active');
-        setTimeout(() => {
-          document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
-        }, 300);
+        success.classList.add('active');
+        setTimeout(() => success.scrollIntoView({ behavior: 'smooth' }), 300);
       } else {
-        document.getElementById('successMessage').classList.remove('active');
+        success.classList.remove('active');
       }
     }
 
-    function formatDate(date) {
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const year = date.getFullYear();
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      return `${day}/${month}/${year} às ${hours}:${minutes}`;
+    function formatFileSize(bytes) {
+      if (bytes < 1024)             return bytes + ' bytes';
+      if (bytes < 1024 * 1024)      return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
     }
   </script>
 </body>
